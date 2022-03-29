@@ -21,6 +21,7 @@ builder.Services.AddScoped<IStudentService, StudentService>();
 
 //Repositories
 builder.Services.AddScoped<IBaseRepository, BaseRepository>();
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IClassRepository, ClassRepository>();
 
 builder.Services.AddEndpointsApiExplorer();

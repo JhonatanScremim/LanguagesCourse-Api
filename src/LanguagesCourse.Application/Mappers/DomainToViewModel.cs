@@ -15,12 +15,15 @@ namespace LanguagesCourse.Application.Mappers
                     {
                         foreach(var item in s.Registrations)
                         {
-                            d.Classes.Add(new ClassViewModel()
+                            if(item.Class!= null)
                             {
-                                Id = item.Class.Id,
-                                Number = item.Class.Number,
-                                Grade = item.Class.Grade
-                            }); 
+                                d.Classes.Add(new ClassViewModel()
+                                {
+                                    Id = item.Class.Id,
+                                    Number = item.Class.Number,
+                                    Grade = item.Class.Grade
+                                }); 
+                            }
                         }
                     }
                 });

@@ -9,6 +9,7 @@ namespace LanguagesCourse.Application.Mappers
         public DTOToDomainMapper()
         {
             CreateMap<StudentDTO, Student>();
+            CreateMap<StudentUpdateDTO, Student>();
         }
     }
 }
