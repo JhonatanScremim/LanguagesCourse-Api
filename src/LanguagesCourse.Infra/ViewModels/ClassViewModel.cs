@@ -5,5 +5,6 @@ namespace LanguagesCourse.Infra.ViewModels
         public int Id { get; set; }
         public int Number { get; set; }
         public int Grade { get; set; }
+        public List<StudentViewModel> Students { get; set; } = new List<StudentViewModel>();
     }
 }

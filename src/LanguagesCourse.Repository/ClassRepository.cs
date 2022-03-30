@@ -14,6 +14,15 @@ namespace LanguagesCourse.Repository
             _context = context;
         }
 
+        public async Task<Class?> GetByIdAsync(int id)
+        {
+            if(_context.Class == null)
+                throw new ArgumentException("Context is null");
+            
+            return await _context.Class.AsNoTracking()
+                .Include(x => x.Registrations).ThenInclude(x => x.Student).FirstOrDefaultAsync(x => x.Id == id);
+        }
+
         public async Task<List<Class>> GetClassesByListIdsAsync(List<int> ids)
         {
             if(_context.Class == null)
