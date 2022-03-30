@@ -7,21 +7,21 @@ namespace LanguagesCourse.API.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class ClassController : ControllerBase
+    public class RegistrationController : ControllerBase
     {
-        private readonly IClassService _classService;
+        private readonly IRegistrationService _registrationService;
 
-        public ClassController(IClassService classService)
+        public RegistrationController(IRegistrationService registrationService)
         {
-            _classService = classService;
+            _registrationService = registrationService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
-            try
+            try 
             {
-                var response = await _classService.GetAllAsync();
+                var response = await _registrationService.GetAllAsync();
 
                 if (response == null || !response.Any())
                     return NoContent();
@@ -40,31 +40,13 @@ namespace LanguagesCourse.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync([FromBody] ClassDTO model)
+        public async Task<IActionResult> CreateAsync([FromBody] RegistrationDTO model)
         {
-            try
+            try 
             {
-                var response = await _classService.CreateAsync(model);
+                var response = await _registrationService.CreateAsync(model);
 
                 return Created("Created", response);
-            }
-            catch(BadRequestException e)
-            {
-                return BadRequest("Error: " + e);
-            }
-            catch(Exception e)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                "Error: " + e.Message);
-            }
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAsync([FromBody] ClassDTO model, int id)
-        {
-            try
-            {
-                return Ok(await _classService.UpdateAsync(model, id));
             }
             catch(BadRequestException e)
             {
@@ -80,11 +62,11 @@ namespace LanguagesCourse.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            try
+            try 
             {
-                var response = await _classService.DeleteAsync(id);
+                var response = await _registrationService.DeleteAsync(id);
 
-                if(!response)
+                if (!response)
                     return BadRequest();
 
                 return Ok("Success");
@@ -99,6 +81,5 @@ namespace LanguagesCourse.API.Controllers
                 "Error: " + e.Message);
             }
         }
-
     }
 }

@@ -11,6 +11,7 @@ namespace LanguagesCourse.Application.Mappers
             CreateMap<StudentDTO, Student>();
             CreateMap<StudentUpdateDTO, Student>();
             CreateMap<ClassDTO, Class>();
+            CreateMap<RegistrationDTO, Registration>();
         }
     }
 }

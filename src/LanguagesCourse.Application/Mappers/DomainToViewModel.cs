@@ -48,6 +48,8 @@ namespace LanguagesCourse.Application.Mappers
                         }
                     }
                 });
+            
+            CreateMap<Registration, RegistrationViewModel>();
         }
     }
 }

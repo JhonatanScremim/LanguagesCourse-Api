@@ -23,7 +23,7 @@ namespace LanguagesCourse.API.Controllers
             {
                 var response = await _studentService.GetAllAsync();
 
-                if (response == null)
+                if (response == null || !response.Any())
                     return NoContent();
                 
                 return Ok(response);
@@ -80,7 +80,7 @@ namespace LanguagesCourse.API.Controllers
             {
                 var response = await _studentService.DeleteAsync(id);
 
-                if(response == false)
+                if(!response)
                     return BadRequest();
 
                 return Ok("Success");

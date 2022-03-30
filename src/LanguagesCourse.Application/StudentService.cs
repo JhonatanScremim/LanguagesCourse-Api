@@ -30,6 +30,12 @@ namespace LanguagesCourse.Application
 
         public async Task<StudentViewModel> CreateAsync(StudentDTO model)
         {
+
+            var cpfStudent = await _studentRepository.GetByCpfAsync(model.Cpf);
+
+            if (cpfStudent != null)
+                throw new BadRequestException("CPF already exists");
+
             var student = _mapper.Map<Student>(model);
 
             var classes = await _classRepository.GetClassesByListIdsAsync(model.ClassesId);
