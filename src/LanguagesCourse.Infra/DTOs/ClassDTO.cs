@@ -4,9 +4,9 @@ namespace LanguagesCourse.Infra.DTOs
 {
     public class ClassDTO
     {
-        [Required]
+        [Range(1, 100)]
         public int Number { get; set; }
-        [Required]
+        [Range(1, 100)]
         public int Grade { get; set; }
     }
 }
