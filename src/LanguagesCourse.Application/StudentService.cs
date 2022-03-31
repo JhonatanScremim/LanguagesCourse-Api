@@ -3,6 +3,7 @@ using LanguagesCourse.Application.Interfaces;
 using LanguagesCourse.Domain;
 using LanguagesCourse.Infra.DTOs;
 using LanguagesCourse.Infra.Exceptions;
+using LanguagesCourse.Infra.Interfaces;
 using LanguagesCourse.Infra.ViewModels;
 using LanguagesCourse.Repository.Interfaces;
 
@@ -13,13 +14,15 @@ namespace LanguagesCourse.Application
         private readonly IBaseRepository _baseRepository;
         private readonly IStudentRepository _studentRepository;
         private readonly IClassRepository _classRepository;
+        private readonly IValidationHelper _validationHelper;
         private readonly IMapper _mapper;
 
-        public StudentService(IBaseRepository baseRepository, IStudentRepository studentRepository, IClassRepository classRepository, IMapper mapper)
+        public StudentService(IBaseRepository baseRepository, IStudentRepository studentRepository, IClassRepository classRepository, IValidationHelper validationHelper, IMapper mapper)
         {
             _baseRepository = baseRepository;
             _studentRepository = studentRepository;
             _classRepository = classRepository;
+            _validationHelper = validationHelper;
             _mapper = mapper;
         }
 
@@ -50,7 +53,10 @@ namespace LanguagesCourse.Application
                                            Student = student
                                        }
                                        select registration)
-                _baseRepository.Create(registration);
+                                       {
+                                           await _validationHelper.ValidateClass(registration.ClassId);
+                                           _baseRepository.Create(registration);
+                                       }
             
             if(!await _baseRepository.SaveChangesAsync())
                 throw new BadRequestException("Could not create");

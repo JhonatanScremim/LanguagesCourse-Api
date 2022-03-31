@@ -3,6 +3,7 @@ using LanguagesCourse.Application.Interfaces;
 using LanguagesCourse.Domain;
 using LanguagesCourse.Infra.DTOs;
 using LanguagesCourse.Infra.Exceptions;
+using LanguagesCourse.Infra.Interfaces;
 using LanguagesCourse.Infra.ViewModels;
 using LanguagesCourse.Repository.Interfaces;
 
@@ -14,14 +15,16 @@ namespace LanguagesCourse.Application
         private readonly IRegistrationRepository _registrationRepository;
         private readonly IStudentRepository _studentRepostory;
         private readonly IClassRepository _classRepository;
+        private readonly IValidationHelper _validationHelper;
         private readonly IMapper _mapper;
 
-        public RegistrationService(IBaseRepository baseRepository, IRegistrationRepository registrationRepository, IStudentRepository studentRepostory, IClassRepository classRepository, IMapper mapper)
+        public RegistrationService(IBaseRepository baseRepository, IRegistrationRepository registrationRepository, IStudentRepository studentRepostory, IClassRepository classRepository, IValidationHelper validationHelper, IMapper mapper)
         {
             _baseRepository = baseRepository;
             _registrationRepository = registrationRepository;
             _studentRepostory = studentRepostory;
             _classRepository = classRepository;
+            _validationHelper = validationHelper;
             _mapper = mapper;
         }
 
@@ -33,10 +36,10 @@ namespace LanguagesCourse.Application
         public async Task<RegistrationViewModel> CreateAsync(RegistrationDTO model)
         {
             var student = await _studentRepostory.GetByIdAsync(model.StudentId);
-            var oldClass = await _classRepository.GetByIdAsync(model.ClassId);
-
-            if (student == null || oldClass == null)
-                throw new BadRequestException("Student or Class not found");
+            if (student == null)
+                throw new BadRequestException("Student not found");
+            
+            await _validationHelper.ValidateClass(model.ClassId);
 
             var oldStudent = await _registrationRepository.GetByStudentClass(model.StudentId, model.ClassId);
 

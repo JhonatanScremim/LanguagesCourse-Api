@@ -5,6 +5,8 @@ using LanguagesCourse.Repository;
 using LanguagesCourse.Repository.Interfaces;
 using LanguagesCourse.Application;
 using LanguagesCourse.Application.Interfaces;
+using LanguagesCourse.Infra.Interfaces;
+using LanguagesCourse.Infra.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +28,8 @@ builder.Services.AddScoped<IBaseRepository, BaseRepository>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IClassRepository, ClassRepository>();
 builder.Services.AddScoped<IRegistrationRepository, RegistrationRepository>();
+
+builder.Services.AddScoped<IValidationHelper, ValidationHelper>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
